@@ -1,0 +1,33 @@
+{
+  "name": "caretta2-client",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "npx webpack --config ./webpack.config.js --node-env production --mode production",
+    "watch": "npx webpack --config ./webpack.config.js --watch"
+  },
+  "dependencies": {
+    "@types/radium": "^0.24.3",
+    "@types/react": "^17.0.6",
+    "@types/react-dom": "^17.0.5",
+    "@types/react-leaflet": "^2.8.1",
+    "@types/socket.io-client": "^3.0.0",
+    "electron": "^12.0.9",
+    "electron-connect": "^0.6.3",
+    "electron-reload-webpack-plugin": "^2.0.4",
+    "file-loader": "^6.2.0",
+    "geolib": "^3.3.1",
+    "html-webpack-plugin": "^5.3.1",
+    "leaflet": "^1.7.1",
+    "radium": "^0.26.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-leaflet": "^3.2.0",
+    "socket.io-client": "^4.1.2",
+    "ts-loader": "^9.2.2",
+    "webpack": "^5.37.1",
+    "webpack-cli": "^4.7.0"
+  },
+  "build": {
+    "appId": "com.qbes.caretta2"
+  }
+}

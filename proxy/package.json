@@ -1,0 +1,16 @@
+{
+  "name": "caretta2-proxy",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/proxy/src/index.js",
+    "watch": "nodemon build/proxy/src/index.js -- --dev"
+  },
+  "dependencies": {
+    "@types/socket.io": "^3.0.2",
+    "@types/ws": "^7.4.4",
+    "nodemon": "^2.0.7",
+    "socket.io": "^4.1.2",
+    "ws": "^7.4.5"
+  }
+}

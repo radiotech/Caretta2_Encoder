@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "sourceMap": false,
+        "strict": true,
+        "moduleResolution": "node",
+        "removeComments": true,
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "types": [
+            "node"
+        ],
+    }
+}

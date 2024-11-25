@@ -1,0 +1,15 @@
+{
+  "name": "caretta2-encoder",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/encoder/src/index.js",
+    "watch": "nodemon build/encoder/src/index.js -- --dev"
+  },
+  "dependencies": {
+    "@saleae/ffi": "^3.0.2",
+    "@types/ffi": "^0.2.3",
+    "ref": "npm:@saleae/ref@^2.0.1",
+    "nodemon": "^2.0.7"
+  }
+}

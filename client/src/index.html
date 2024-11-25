@@ -1,0 +1,141 @@
+<!-- // src/index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; script-src * 'unsafe-inline'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
+        <title>Caretta2</title>
+        <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                background-color: #ffffff;
+                overflow: hidden;
+            }
+            
+            .leaflet-container {
+                height: 100%;
+            }
+            
+            .style {
+                box-sizing: border-box;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+            }
+            .style-all {
+                box-sizing: border-box;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+            }
+            .style-all div {
+                box-sizing: border-box;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+            }
+            .style-all a {
+                color: inherit;
+                text-decoration: inherit;
+            }
+            
+            .style-all textarea {
+                box-sizing: border-box;
+            }
+            .style-all input {
+                border: 2px solid #ccc;
+                padding: 2px;
+                border-radius: 4px;
+                outline: none;
+            }
+            .style-all input:disabled {
+                background-color: #ddd;
+            }
+            .style-all select {
+                border: 2px solid #ccc;
+                padding-left: 2px;
+                padding-right: 2px;
+                padding-top: 1px;
+                padding-bottom: 1px;
+                border-radius: 4px;
+                outline: none;
+            }
+            .style-all button {
+                border: 1px solid #ccc;
+                background-color: #eee;
+                padding: 4px;
+                border-radius: 4px;
+                outline: none;
+                cursor: pointer;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .style-all button:active {
+                background-color: #ddd;
+            }
+            .style-all option {
+                padding: none;
+            }
+            .style-all table {
+                border-collapse: collapse;
+            }
+            .style-all td {
+                border: 1px solid #ccc;
+            }
+            .style-all td, .style-all th {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            ::-webkit-scrollbar {
+                width: 12px;
+                height: 12px;
+            }
+            ::-webkit-scrollbar-track:horizontal {
+                border-top: 1px solid #e7e7e7;
+            }
+            ::-webkit-scrollbar-track:vertical {
+                border-left: 1px solid #e7e7e7;
+            }
+            ::-webkit-scrollbar-thumb {
+                border: 3px solid rgba(0, 0, 0, 0);
+                background-clip: padding-box;
+                border-radius: 10px;
+                background-color: #c2c2c2;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #7d7d7d;
+            }
+
+            .tab-scroll::-webkit-scrollbar {
+                height: 12px;
+            }
+            .tab-scroll::-webkit-scrollbar-track {
+                background-color: #555;
+                border: 2px solid #555;
+            }
+            .tab-scroll::-webkit-scrollbar-thumb {
+                border: 2px solid rgba(0, 0, 0, 0);
+                border-bottom: none;
+                border-radius: 0px;
+                background-color: #c2c2c2;
+            }
+            .tab-scroll::-webkit-scrollbar-thumb:hover {
+                background-color: #ddd;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root">
+        </div>
+    </body>
+</html>
