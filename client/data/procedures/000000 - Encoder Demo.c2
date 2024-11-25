@@ -1,0 +1,41 @@
+{"title":"Encoder Demo","date":1732505750104}
+{
+  "title": "Encoder Demo",
+  "date": 1732505750104,
+  "notes": "This demo records data from the encoder over a 5 minute period then prints a mean angle to the console.",
+  "steps": [
+    {
+      "type": "comment",
+      "id": "e26dd22d07f8090e",
+      "text": "The below label marks the start of data collection."
+    },
+    {
+      "type": "label",
+      "id": "f20ae4b1d4ba9bd7",
+      "text": "Start Data Collection"
+    },
+    {
+      "type": "wait",
+      "id": "39c47749f5d87d5c",
+      "time": "5",
+      "units": "minutes"
+    },
+    {
+      "type": "comment",
+      "id": "e26dd22d07f8090f",
+      "text": "The report step below marks the end of data collection."
+    },
+    {
+      "type": "report",
+      "id": "974996c5885396ba",
+      "text": "End Data Collection",
+      "method": "mean_bearing",
+      "from": "f20ae4b1d4ba9bd7",
+      "to": "974996c5885396ba"
+    },
+    {
+      "type": "end_trial",
+      "id": "800fc90b1da09382"
+    }
+  ]
+}

@@ -6,7 +6,9 @@ mc3dtemp.m
 **/build
 node_modules
 .env
-client/data
+client/data/trials
+client/data/procedures/*
+!client/data/procedures/000000 - Encoder Demo.c2
 encoder_testing
 scripts/start
 scripts/start.bat
