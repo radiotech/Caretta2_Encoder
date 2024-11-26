@@ -1,0 +1,37 @@
+# Caretta2_Encoder Documentation
+
+## Technologies Used
+
+This project was developed using [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/), [React](https://reactjs.org/), [Electron](https://electronjs.org/), and [TypeScript](http://www.typescriptlang.org/) as the primary technologies. The majority of the project's source code is written in TypeScript. Webpack is used to transpile the source code into JavaScript and to bundle the code with additional content such as images and HTML files. The client application is written in JavaScript, HTML, and CSS, much like a web app. Electron is used to run the app as a desktop program. The program uses the React framework to control the flow of data through the app, keeping data and functionality confined to logical units. React's context feature is used to manage global state and transmit data and updates efficiently between components. The proxy server and encoder components use Node.js as a runtime. State control is less defined in these components as they are much smaller and less complex than the client component. WebSockets are used for communication between each of the components, which run independently on the same computer or over the network. NPM is used for dependency management within each part of the project.
+
+## Setup Script
+
+The setup script is implemented using [NPM scripts](https://docs.npmjs.com/cli/run-script). The project's main `package.json` file (located in the root directory) defines a command to run when the user enters `npm run setup`. This command is `node scripts/setup.js`, which tells node to execute the project's setup code using Node.js. When flags are passed to the command, such as in the case of `npm run setup -- -q`, the `--` flag tells NPM to add any following arguments to the command defined for that NPM script. This results in the `-q` flag being passed to the setup script. When the setup script launches, it scans the project to compile a list of settings supported by different components of the app, such as the client (user interface) and encoder (hardware control) components. A webpage is then hosted on a local server and a browser window is launched to render a settings form that can be completed by the user. Once submitted, these settings are applied to the appropriate components of the app. The setup script can also optionally add desktop shortcuts for setup and launching of the program and launch the program when setup is complete.
+
+## Program Architecture
+
+The Caretta2 project is broken down into a set of modules that include the Caretta2 _client_ module, the _proxy server_ module, and the _encoder_ module. A typical Caretta2 setup will include one instance of each module. The client module offers a user interface where the encoder can be zeroed and experimental procedures can be defined, executed, and reviewed. The proxy server links the encoder module to the central Caretta2 client instance, and the encoder module interfaces directly with the US Digital USB4 device connected to the encoder.
+
+Each module in the setup must be properly configured so that it knows how to behave and how to connect to other modules associated with the setup. For all modules, this configuration involves the inclusion of a "Caretta Token" that all devices associated with the system share and use for identification. When completing the setup process, the same Caretta Token value should be entered for each module added to a networked Caretta2 setup. In addition to the Caretta Token, the Caretta2 client requires a proxy server instance IP address and port so that it can connect to the setup's proxy server. The encoder module requires the IP address and port of the proxy server instance as well so that it can connect to this server and can communicate with the client.
+
+In the most basic (and typical) case, the Caretta2 client, proxy server, and encoder components can all be installed on one device. With this setup, the Caretta2 client and encoder modules can simply be configured to search for a proxy server on the local computer (localhost). A depiction of this single device setup is included below.
+
+<img src="https://i.imgur.com/GzAVlXU.png" width="700"></img>
+
+In more advanced cases, it may be necessary to spread the setup over multiple computers. Below are example diagrams for these networked setups.
+
+<img src="https://i.imgur.com/9NMINN4.png" width="700"></img>
+
+<img src="https://i.imgur.com/VeUTE5y.png" width="700"></img>
+
+<img src="https://i.imgur.com/PQjNSAg.png" width="700"></img>
+
+# Data Flow
+
+This section details the flow of data from the encoder module to the client where it is stored and presented to the user. Timing data will be provided for each stage of data transmission.
+
+Data is collected from the encoder device by the encoder Module using the US Digital USB4 Drivers and Libraries. The data polling frequency for the encoder can be specified during setup. This is the rate at which the USB4 device is checked for new position data. Collected readings are sent to the Caretta2 client instance via the proxy server module and WebSockets connections. The frequency of data transmission is equal to the encoder polling frequency, except that updates are only sent when the encoder position has changed. A 'heartbeat' transmission of the current encoder angle is also sent to the client at a rate of 1 Hz. In order to accommodate high-latency or low-stability connections between different computers in a networked setup, the encoder sample frequency may need to be decreased to 10 Hz or less.
+
+Data transmitted from the encoder Module is first received by the proxy server. This module immediately forwards this data to the connected client instance. The time required for the transmission of data between the encoder Module and the client component depends upon network latency and stability. For local setups on standard hardware where the encoder, proxy server, and client modules are all installed on a single computer, data transmission requires between 1 and 5 milliseconds. This may increase to approximately 10 ms when modules are distributed between computers on a local network and to between 100 and 1000 ms for setups that are networked over the internet. When latencies increase past 10 ms, the encoder module settings may need to be modified to decrease the data transmission rate to prevent a backlog of undelivered readings from forming. With a single-computer setup and the default encoder polling rate of 100 Hz or 10 ms per poll, changes to the encoder state typically be delivered to the client within 20 ms (up to 10 ms to be polled, 5 ms to transmit to the proxy server, and 5 ms to transmit to the client instance).
+
+Once data is received by the client component, it is timestamped and immediately incorporated into the client's internal encoder data model with all previous encoder readings. While the client's internal data model is immediately updated, updates to interfaces within the program only occur at a rate of 5 Hz. This means that encoder readings may take up to 200 ms between being received by the client and being accurately reflected within the Caretta2 user interface. When the encoder's state is being viewed within the client application as the rotation is recorded, the encoder's sensed bearing will only update 5 times per second and may appear to 'lag' slightly behind the encoder's true position. This delay is only visual, however, and does not affect the internal state of the encoder data used for recordings and calculations.
