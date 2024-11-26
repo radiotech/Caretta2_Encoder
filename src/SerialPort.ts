@@ -1,5 +1,5 @@
 // Import required NPM modules
-import {ReadlineParser, SerialPort as serialport} from 'serialport';
+import serialport from 'serialport';
 import {promisify} from 'util';
 import * as fs from 'fs';
 import {wait} from './Util';
@@ -122,9 +122,9 @@ export const findPort = async (port: Port): Promise<Port | undefined> =>{
 };
 
 // Define types related to the connectSerial function
-export type writeCallback = (...commands: string[] | [{baudRate: number}])=>Promise<void>;
+export type writeCallback = (...commands: string[] | [serialport.UpdateOptions])=>Promise<void>;
 type ReconfigurableConnectSerialConfig = {
-    connectionConfig: {baudRate: number},
+    connectionConfig: serialport.OpenOptions,
     parserConfig: {
         delimiter: string,
         includeDelimiter?: boolean
@@ -203,8 +203,8 @@ export const connectSerial = ({
         }
 
         // Open a connection to the identified serial device
-        port = new serialport({path: resolvedPortConfig.path, ...connectionConfig});
-        let parser = port.pipe(new ReadlineParser(parserConfig) as any);
+        port = new serialport(resolvedPortConfig.path, connectionConfig);
+        let parser = port.pipe(new serialport.parsers.Readline(parserConfig));
 
         // Define variables to track the writing of data to the device
         let ready = true; // Boolean indicating whether the device is currently ready to receive data
@@ -234,7 +234,7 @@ export const connectSerial = ({
         };
 
         // Define a function to send commands to the device
-        let write = (...commands: string[] | [{baudRate: number}])=>new Promise<void>(resolve=>{
+        let write = (...commands: string[] | [serialport.UpdateOptions])=>new Promise<void>(resolve=>{
             if(commands.length == 1 && typeof commands[0] == 'object'){
                 port.update(commands[0]);
                 resolve();

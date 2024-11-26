@@ -27,9 +27,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectSerial = exports.findPort = exports.portToConfig = exports.labelToPort = exports.portToLabel = exports.getPorts = void 0;
-const serialport_1 = require("serialport");
+const serialport_1 = __importDefault(require("serialport"));
 const util_1 = require("util");
 const fs = __importStar(require("fs"));
 const Util_1 = require("./Util");
@@ -63,9 +66,7 @@ const refreshPorts = (logPrefix = '') => __awaiter(void 0, void 0, void 0, funct
             })))).filter(x => x !== undefined && x.path.length > 0 && x.locationId.length > 0);
         }
         catch (e) { }
-        console.log(typeof serialport_1.SerialPort);
-        console.log(serialport_1.SerialPort === null || serialport_1.SerialPort === void 0 ? void 0 : serialport_1.SerialPort.list);
-        ports = (yield serialport_1.SerialPort.list()).map(x => {
+        ports = (yield serialport_1.default.list()).map(x => {
             portLabelKeys.forEach(y => {
                 if (typeof x[y.key] === 'string') {
                     x[y.key] = x[y.key].replace(/[,:]/g, '-').trim();
@@ -155,8 +156,8 @@ const connectSerial = ({ deviceLabel, port: portConfig, connectionConfig, parser
             retry();
             return;
         }
-        port = new serialport_1.SerialPort(Object.assign({ path: resolvedPortConfig.path }, connectionConfig));
-        let parser = port.pipe(new serialport_1.ReadlineParser(parserConfig));
+        port = new serialport_1.default(resolvedPortConfig.path, connectionConfig);
+        let parser = port.pipe(new serialport_1.default.parsers.Readline(parserConfig));
         let ready = true;
         let readyTimeout = undefined;
         let writeQueue = [];
